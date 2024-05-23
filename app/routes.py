@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, abort
+from flask import Blueprint, request, jsonify
 from . import db
 from .models import Task
 from .schemas import TaskSchema, TaskCreateSchema, TaskUpdateSchema

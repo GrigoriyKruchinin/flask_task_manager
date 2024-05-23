@@ -16,7 +16,6 @@ swagger_ui_blueprint = get_swaggerui_blueprint(
 def create_tags(spec):
     tags = [{"name": "Task manager", "description": "Управление задачами"}]
     for tag in tags:
-        print(f"Добавляем тег: {tag['name']}")
         spec.tag(tag)
 
 
@@ -43,6 +42,5 @@ def load_docstrings(spec, app):
     for fn_name in app.view_functions:
         if fn_name == "static":
             continue
-        print(f"Загружаем описание для функции: {fn_name}")
         view_fn = app.view_functions[fn_name]
         spec.path(view=view_fn)
