@@ -1,5 +1,5 @@
 # Инициализирует миграции
-migrate:
+start_migrate:
 	flask db init
 	flask db migrate -m "Initial migration."
 	flask db upgrade
