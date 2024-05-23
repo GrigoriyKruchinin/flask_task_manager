@@ -10,26 +10,57 @@ load_dotenv()
 
 
 def create_app():
-    app = Flask(__name__)
-    app.config.from_object(Config)
+    """
+    Создание экземпляра приложения Flask.
 
-    db.init_app(app)
-    migrate.init_app(app, db)
+    Returns:
+        app: Экземпляр приложения Flask.
+    """
+    app = Flask(__name__)  # Создание экземпляра приложения Flask
+    app.config.from_object(Config)  # Применение конфигурации к приложению
 
-    from . import routes
+    db.init_app(app)  # Инициализация базы данных для приложения
+    migrate.init_app(app, db)  # Инициализация миграций для базы данных
 
-    app.register_blueprint(routes.bp)
-    app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
+    from . import routes  # Импорт маршрутов приложения
+
+    app.register_blueprint(routes.bp)  # Регистрация маршрутов в приложении
+    app.register_blueprint(
+        swagger_ui_blueprint, url_prefix=SWAGGER_URL
+    )  # Регистрация Swagger UI в приложении
 
     @app.route("/swagger.json")
     def create_swagger_spec():
-        return json.dumps(get_apispec(app).to_dict())
+        """
+        Создание спецификации API в формате JSON.
+
+        Returns:
+            str: Спецификация API в формате JSON.
+        """
+        return json.dumps(
+            get_apispec(app).to_dict()
+        )  # Возврат спецификации API в формате JSON
 
     @app.errorhandler(Exception)
     def handle_exception(e):
-        if isinstance(e, APISpecError):
-            return jsonify({"error": str(e)}), 400
-        else:
-            return jsonify({"error": "Internal server error"}), 500
+        """
+        Обработчик исключений для обработки ошибок.
 
-    return app
+        Args:
+            e: Исключение, которое необходимо обработать.
+
+        Returns:
+            response: Ответ с информацией об ошибке.
+        """
+        if isinstance(e, APISpecError):  # Если возникло исключение APISpecError
+            return (
+                jsonify({"error": str(e)}),
+                400,
+            )  # Возврат сообщения об ошибке валидации данных, код ошибки 400
+        else:  # В противном случае
+            return (
+                jsonify({"error": "Internal server error"}),
+                500,
+            )  # Возврат сообщения об ошибке сервера, код ошибки 500
+
+    return app  # Возврат экземпляра приложения Flask
