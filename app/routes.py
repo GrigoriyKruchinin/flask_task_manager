@@ -31,7 +31,8 @@ def create_task():
     task = Task(**task_data)
     db.session.add(task)
     db.session.commit()
-    return schema.dump(task), 201
+    output_schema = TaskSchema()
+    return output_schema.dump(task), 201
 
 
 @bp.route("", methods=["GET"])
@@ -114,7 +115,8 @@ def update_task(id):
     for key, value in updated_data.items():
         setattr(task, key, value)
     db.session.commit()
-    return schema.dump(task), 200
+    output_schema = TaskSchema()
+    return output_schema.dump(task), 200
 
 
 @bp.route("/<int:id>", methods=["DELETE"])

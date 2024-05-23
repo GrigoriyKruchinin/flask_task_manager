@@ -9,6 +9,6 @@ class Task(db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     updated_at = db.Column(
         db.DateTime,
-        default=lambda: datetime.now(timezone.utc),
+        default=None,
         onupdate=lambda: datetime.now(timezone.utc),
     )
