@@ -14,7 +14,7 @@ swagger_ui_blueprint = get_swaggerui_blueprint(
 
 
 def create_tags(spec):
-    tags = [{"name": "tasks", "description": "Управление задачами"}]
+    tags = [{"name": "Task manager", "description": "Управление задачами"}]
     for tag in tags:
         print(f"Добавляем тег: {tag['name']}")
         spec.tag(tag)
@@ -22,7 +22,7 @@ def create_tags(spec):
 
 def get_apispec(app):
     spec = APISpec(
-        title="Task API",
+        title="Task manager API",
         version="1.0.0",
         openapi_version="3.0.3",
         plugins=[FlaskPlugin(), MarshmallowPlugin()],

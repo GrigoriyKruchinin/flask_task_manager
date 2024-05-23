@@ -3,7 +3,10 @@ from config import Config
 from .docs import get_apispec, swagger_ui_blueprint
 from .db import db, migrate
 from .docs import SWAGGER_URL
+from dotenv import load_dotenv
 from apispec.exceptions import APISpecError
+
+load_dotenv()
 
 
 def create_app():
