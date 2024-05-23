@@ -1,11 +1,9 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+from flask import Flask, json, jsonify
 from config import Config
-
-
-db = SQLAlchemy()
-migrate = Migrate()
+from .docs import get_apispec, swagger_ui_blueprint
+from .db import db, migrate
+from .docs import SWAGGER_URL
+from apispec.exceptions import APISpecError
 
 
 def create_app():
@@ -18,5 +16,17 @@ def create_app():
     from . import routes
 
     app.register_blueprint(routes.bp)
+    app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
+
+    @app.route("/swagger.json")
+    def create_swagger_spec():
+        return json.dumps(get_apispec(app).to_dict())
+
+    @app.errorhandler(Exception)
+    def handle_exception(e):
+        if isinstance(e, APISpecError):
+            return jsonify({"error": str(e)}), 400
+        else:
+            return jsonify({"error": "Internal server error"}), 500
 
     return app

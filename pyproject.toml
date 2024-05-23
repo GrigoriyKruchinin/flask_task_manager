@@ -14,6 +14,10 @@ python-dotenv = "^1.0.1"
 mysql-connector-python = "^8.4.0"
 pymysql = "^1.1.1"
 cryptography = "^42.0.7"
+marshmallow = "^3.21.2"
+apispec = "^6.6.1"
+apispec-webframeworks = "^1.1.0"
+flask-swagger-ui = "^4.11.1"
 
 
 [tool.poetry.group.dev.dependencies]
